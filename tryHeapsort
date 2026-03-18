@@ -141,3 +141,77 @@ public class tryHeapsort {
             // Load words from file
             String[] words = loadWords("ulysses_clean.txt");
             System.out.println("Loaded " + words.length + " words from Ulysses");
+
+            // Test with small array first
+            System.out.println("\n=== TESTING WITH SMALL ARRAY (20 WORDS) ===");
+            testWithSmallArray(words);
+            
+            // Test with full dataset
+            System.out.println("\n=== TESTING WITH FULL DATASET ===");
+            testWithFullDataset(words);
+            
+        } catch (IOException e) {
+            System.out.println("Error loading file: " + e.getMessage());
+        }
+    }
+    
+    // Load words from file
+    private static String[] loadWords(String filename) throws IOException {
+        ArrayList<String> wordList = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new FileReader(filename));
+        String line;
+        
+        while ((line = reader.readLine()) != null) {
+            String[] words = line.trim().split("\\s+");
+            for (String word : words) {
+                if (!word.isEmpty()) {
+                    wordList.add(word.toLowerCase());
+                }
+            }
+        }
+        reader.close();
+        
+        return wordList.toArray(new String[0]);
+    }
+    
+    // Test with small array
+    private static void testWithSmallArray(String[] allWords) {
+        // Take first 20 words
+        String[] testWords = Arrays.copyOfRange(allWords, 0, 20);
+        
+        System.out.println("Original words (first 10):");
+        for (int i = 0; i < 10; i++) {
+            System.out.print(testWords[i] + " ");
+        }
+        System.out.println("\n");
+        
+        // Test bottom-up
+        System.out.println("Bottom-up construction:");
+        String[] bottomUpWords = testWords.clone();
+        Heap heap1 = new Heap(bottomUpWords.length);
+        heap1.buildBottomUp(bottomUpWords, bottomUpWords.length);
+        String[] sorted1 = heap1.heapSort();
+        System.out.println("Sorted (first 10):");
+        for (int i = 0; i < 10; i++) {
+            System.out.print(sorted1[i] + " ");
+        }
+        System.out.println("\n");
+        
+        // Test top-down
+        System.out.println("Top-down construction:");
+        String[] topDownWords = testWords.clone();
+        Heap heap2 = new Heap(topDownWords.length);
+        heap2.buildTopDown(topDownWords, topDownWords.length);
+        String[] sorted2 = heap2.heapSort();
+        System.out.println("Sorted (first 10):");
+        for (int i = 0; i < 10; i++) {
+            System.out.print(sorted2[i] + " ");
+        }
+        System.out.println("\n");
+        
+        // Verify both sorts produce same result
+        System.out.println("Sorts match: " + Arrays.equals(sorted1, sorted2));
+    }
+    
+            
+        
