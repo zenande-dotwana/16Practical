@@ -272,5 +272,56 @@ public class tryHeapsort {
             topDownBuild + topDownSort);
         
         System.out.println("\n" + "=".repeat(60));
+
+        // Calculate speedup
+        double speedup = (topDownBuild + topDownSort) / (bottomUpBuild + bottomUpSort);
+        System.out.printf("Bottom-up is %.2f times faster overall\n", speedup);
+        
+        if (bottomUpBuild < topDownBuild) {
+            double buildSpeedup = topDownBuild / bottomUpBuild;
+            System.out.printf("Bottom-up construction is %.2f times faster\n", buildSpeedup);
+        } else {
+            double buildSlowdown = bottomUpBuild / topDownBuild;
+            System.out.printf("Bottom-up construction is %.2f times slower (unexpected)\n", buildSlowdown);
+        }
+    }
+    
+    // Verify sorting correctness
+    private static void verifySorting(String[] sorted1, String[] sorted2, String[] original) {
+        // Check if both sorts are identical
+        boolean sortsMatch = Arrays.equals(sorted1, sorted2);
+        System.out.println("\nSorting verification:");
+        System.out.println("Both methods produce identical results: " + sortsMatch);
+        
+        // Check if actually sorted
+        boolean isSorted = true;
+        for (int i = 0; i < sorted1.length - 1; i++) {
+            if (sorted1[i].compareTo(sorted1[i + 1]) > 0) {
+                isSorted = false;
+                break;
+            }
+        }
+        System.out.println("Result is correctly sorted: " + isSorted);
+        
+        // Check if all original words are present
+        boolean allPresent = checkAllWordsPresent(sorted1, original);
+        System.out.println("All original words present: " + allPresent);
+    }
+    
+    // Helper to check if all original words are in sorted array
+    private static boolean checkAllWordsPresent(String[] sorted, String[] original) {
+        Set<String> sortedSet = new HashSet<>(Arrays.asList(sorted));
+        for (String word : original) {
+            if (!sortedSet.contains(word)) {
+                System.out.println("Missing: " + word);
+                return false;
+            }
+        }
+        return true;
+    }
+}
+       
+
+
             
         
