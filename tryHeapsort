@@ -1,1 +1,36 @@
+import java.io.*;
+import java.util.*;
 
+public class tryHeapsort {
+    
+    // Heap class to handle heap operations
+    static class Heap {
+        private String[] heapArray;
+        private int size;
+        
+        // Constructor
+        public Heap(int capacity) {
+            heapArray = new String[capacity];
+            size = 0;
+        }
+        
+        // Build the heap bottom-up (O(n))
+        public void buildBottomUp(String[] words, int n) {
+            this.heapArray = words;
+            this.size = n;
+            
+            // Start from the last parent node and heapify downwards
+            for (int i = (n/2 - 1); i >= 0; i--) {
+                heapifyDown(i, n);
+            }
+        }
+        
+        // Build the heap top-down (O(n log n)) by repeated inserts
+        public void buildTopDown(String[] words, int n) {
+            this.heapArray = new String[n];
+            this.size = 0;
+            
+            // Insert each word one by one
+            for (int i = 0; i < n; i++) {
+                insert(words[i]);
+            }
