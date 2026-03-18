@@ -308,7 +308,7 @@ public class tryHeapsort {
         System.out.println("All original words present: " + allPresent);
     }
     
-    // Helper to check if all original words are in sorted array
+    // Helper to check if all the original words are in sorted array
     private static boolean checkAllWordsPresent(String[] sorted, String[] original) {
         Set<String> sortedSet = new HashSet<>(Arrays.asList(sorted));
         for (String word : original) {
