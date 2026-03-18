@@ -103,3 +103,41 @@ public class tryHeapsort {
             // Array is now in ascending order
             return heapArray;
         }
+        
+        // Swap helper
+        private void swap(int i, int j) {
+            String temp = heapArray[i];
+            heapArray[i] = heapArray[j];
+            heapArray[j] = temp;
+        }
+    }
+    
+    // Timing class (reused from previous practicals)
+    static class Timer {
+        private long startTime;
+        private long endTime;
+        
+        public void start() {
+            startTime = System.nanoTime();
+        }
+        
+        public void stop() {
+            endTime = System.nanoTime();
+        }
+        
+        public double getTimeMilliseconds() {
+            return (endTime - startTime) / 1_000_000.0;
+        }
+        
+        public void reset() {
+            startTime = 0;
+            endTime = 0;
+        }
+    }
+    
+    // Main method
+    public static void main(String[] args) {
+        try {
+            // Load words from file
+            String[] words = loadWords("ulysses_clean.txt");
+            System.out.println("Loaded " + words.length + " words from Ulysses");
