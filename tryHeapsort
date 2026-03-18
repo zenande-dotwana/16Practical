@@ -60,3 +60,46 @@ public class tryHeapsort {
                 }
             }
         }
+        // Heapify down (for bottom-up build and sorting)
+        private void heapifyDown(int index, int heapSize) {
+            int largest = index;
+            int left = 2 * index + 1;
+            int right = 2 * index + 2;
+            
+            if (left < heapSize && heapArray[left].compareTo(heapArray[largest]) > 0) {
+                largest = left;
+            }
+            
+            if (right < heapSize && heapArray[right].compareTo(heapArray[largest]) > 0) {
+                largest = right;
+            }
+            
+            if (largest != index) {
+                swap(index, largest);
+                heapifyDown(largest, heapSize);
+            }
+        }
+        
+        // Extract max (for sorting)
+        private String extractMax(int heapSize) {
+            if (heapSize <= 0) return null;
+            
+            String max = heapArray[0];
+            heapArray[0] = heapArray[heapSize - 1];
+            heapifyDown(0, heapSize - 1);
+            return max;
+        }
+        
+        // Sort the heap (common for both construction methods)
+        public String[] heapSort() {
+            String[] sorted = new String[size];
+            
+            // Extract elements in descending order and place at the end
+            for (int i = size - 1; i >= 0; i--) {
+                swap(0, i);
+                heapifyDown(0, i);
+            }
+            
+            // Array is now in ascending order
+            return heapArray;
+        }
