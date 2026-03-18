@@ -212,6 +212,65 @@ public class tryHeapsort {
         // Verify both sorts produce same result
         System.out.println("Sorts match: " + Arrays.equals(sorted1, sorted2));
     }
+    // Test with full dataset
+    private static void testWithFullDataset(String[] words) {
+        Timer timer = new Timer();
+        
+        // Test bottom-up construction
+        String[] bottomUpWords = words.clone();
+        Heap heap1 = new Heap(bottomUpWords.length);
+        
+        timer.start();
+        heap1.buildBottomUp(bottomUpWords, bottomUpWords.length);
+        timer.stop();
+        double bottomUpBuildTime = timer.getTimeMilliseconds();
+        
+        timer.start();
+        String[] sorted1 = heap1.heapSort();
+        timer.stop();
+        double bottomUpSortTime = timer.getTimeMilliseconds();
+        
+        // Test top-down construction
+        String[] topDownWords = words.clone();
+        Heap heap2 = new Heap(topDownWords.length);
+        
+        timer.start();
+        heap2.buildTopDown(topDownWords, topDownWords.length);
+        timer.stop();
+        double topDownBuildTime = timer.getTimeMilliseconds();
+        
+        timer.start();
+        String[] sorted2 = heap2.heapSort();
+        timer.stop();
+        double topDownSortTime = timer.getTimeMilliseconds();
+        
+        // Display timings
+        displayTimings(bottomUpBuildTime, bottomUpSortTime, 
+                      topDownBuildTime, topDownSortTime, words.length);
+        
+        // Verify sorts are correct
+        verifySorting(sorted1, sorted2, words);
+    }
     
+    // Display timing results
+    private static void displayTimings(double bottomUpBuild, double bottomUpSort,
+                                      double topDownBuild, double topDownSort,
+                                      int wordCount) {
+        System.out.println("\n" + "=".repeat(60));
+        System.out.println("TIMING RESULTS for " + wordCount + " words");
+        System.out.println("=".repeat(60));
+        
+        System.out.printf("%-30s %-20s %-20s\n", "Operation", "Bottom-Up (ms)", "Top-Down (ms)");
+        System.out.println("-".repeat(60));
+        
+        System.out.printf("%-30s %-20.3f %-20.3f\n", 
+            "Heap Construction Time:", bottomUpBuild, topDownBuild);
+        System.out.printf("%-30s %-20.3f %-20.3f\n", 
+            "Sorting Time:", bottomUpSort, topDownSort);
+        System.out.printf("%-30s %-20.3f %-20.3f\n", 
+            "Total Time:", bottomUpBuild + bottomUpSort, 
+            topDownBuild + topDownSort);
+        
+        System.out.println("\n" + "=".repeat(60));
             
         
